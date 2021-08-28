@@ -21,6 +21,6 @@ public class Board extends BaseEntity {
     private String content;
 
     @ManyToOne
-    private Member writer;  //연관관계 지정
+    private Member writer;  //연관관계 지정.
 
 }
