@@ -3,6 +3,7 @@ package org.zerock.boardspringBoot.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.boardspringBoot.entity.Board;
 import org.zerock.boardspringBoot.entity.Reply;
 
@@ -35,6 +36,7 @@ public class ReplyRepositoryTests {
         });
     }
 
+    @Transactional  //해당 메서드를 하나의 트랜잭션으로 처리하는 어노테이션
     @Test
     public void readReply1() {
 

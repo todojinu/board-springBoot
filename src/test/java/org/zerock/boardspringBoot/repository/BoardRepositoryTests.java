@@ -3,6 +3,7 @@ package org.zerock.boardspringBoot.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.boardspringBoot.entity.Board;
 import org.zerock.boardspringBoot.entity.Member;
 
@@ -34,6 +35,7 @@ public class BoardRepositoryTests {
 
     }
 
+    @Transactional  //해당 메서드를 하나의 트랜잭션으로 처리하는 어노테이션
     @Test
     public void testRead1() {
         Optional<Board> result = boardRepository.findById(100L);
@@ -42,5 +44,16 @@ public class BoardRepositoryTests {
 
         System.out.println(board);
         System.out.println(board.getWriter());
+        /*
+         * Lazy Loading인 경우 board 테이블만 가져오온 후 session이 종료된 상태이기 때문에 member테이블을 로딩하지 못해 에러 발생
+         * - could not initialize proxy [org.zerock.boardspringBoot.entity.Member#user100@aaa.com] - no Session
+         * => 메서드 선언부에 @Transactional 어노테이션 선언하여 메소드를 하나의 트랜잭션으로 연결
+         *    트랜잭션으로 처리하면 속성에 따라 다르게 동작하지만, 기본적으로 필요할 때 다시 데이터베이스와 연결됨
+         */
+
+
+
+
+
     }
 }
