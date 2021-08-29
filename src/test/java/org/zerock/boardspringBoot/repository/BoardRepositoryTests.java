@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.zerock.boardspringBoot.entity.Board;
 import org.zerock.boardspringBoot.entity.Member;
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.IntStream;
 
@@ -51,9 +54,28 @@ public class BoardRepositoryTests {
          *    트랜잭션으로 처리하면 속성에 따라 다르게 동작하지만, 기본적으로 필요할 때 다시 데이터베이스와 연결됨
          */
 
+    }
 
+    @Test
+    public void testReadWithWriter() {
+        Object result = boardRepository.getBoardWithWriter(100L);
 
+        Object[] arr = (Object[])result;
 
+        System.out.println("-------------------------");
+        System.out.println(arr[0]);
+        System.out.println(arr[1]);
+
+        //System.out.println(Arrays.toString(arr));
+    }
+
+    @Test
+    public void testReadWithReply() {
+        List<Object[]> result = boardRepository.getBoardWithReply(1L);
+
+        for (Object[] arr : result) {
+            System.out.println(Arrays.toString(arr));
+        }
 
     }
 }
