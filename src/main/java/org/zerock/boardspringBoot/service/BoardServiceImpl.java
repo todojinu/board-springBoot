@@ -5,12 +5,14 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.zerock.boardspringBoot.dto.BoardDTO;
 import org.zerock.boardspringBoot.dto.PageRequestDTO;
 import org.zerock.boardspringBoot.dto.PageResultDTO;
 import org.zerock.boardspringBoot.entity.Board;
 import org.zerock.boardspringBoot.entity.Member;
 import org.zerock.boardspringBoot.repository.BoardRepository;
+import org.zerock.boardspringBoot.repository.ReplyRepository;
 
 import java.util.function.Function;
 
@@ -19,10 +21,12 @@ import java.util.function.Function;
 @Log4j2
 public class BoardServiceImpl implements BoardService {
 
-    private final BoardRepository repository;  //자동 주입 final
+    private final BoardRepository repository;
+
+    private final ReplyRepository replyRepository;
 
     @Override
-    public Long register(BoardDTO dto) {
+    public Long register(BoardDTO dto) {  // 게시물 등록
 
         log.info(dto);
 
@@ -34,7 +38,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {
+    public PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO) {  //게시물 목록 조회
 
         log.info(pageRequestDTO);
 
@@ -46,7 +50,7 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public BoardDTO get(Long bno) {
+    public BoardDTO get(Long bno) {  //게시물 조회
 
         Object result = repository.getBoardByBno(bno);
 
@@ -55,4 +59,14 @@ public class BoardServiceImpl implements BoardService {
         return entityToDto((Board)arr[0], (Member)arr[1], (Long)arr[2]);
     }
 
+    @Transactional
+    @Override
+    public void removeWithReplies(Long bno) {  //게시물 삭제
+
+        //댓글 삭제
+        replyRepository.deleteByBno(bno);
+
+        //게시물 삭제
+        repository.deleteById(bno);
+    }
 }

@@ -8,15 +8,17 @@ import org.zerock.boardspringBoot.entity.Member;
 
 public interface BoardService {
 
-    Long register(BoardDTO dto);  // 게시물 등록
+    Long register(BoardDTO dto);  //게시물 등록
 
-    PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);  // 목록처리
+    PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);  //게시물 목록 조회
 
-    BoardDTO get(Long bno);  // 게시물 조회
+    BoardDTO get(Long bno);  //게시물 조회
+
+    void removeWithReplies(Long bno);  //게시물 삭제
 
     default Board dtoToEntity(BoardDTO dto) {  //BoardDTO를 Board 엔티티 타입으로 변환하는 default메소드
 
-        Member member = Member.builder().email(dto.getWriterEmail()).build();  // Member 엔티티객체 처리
+        Member member = Member.builder().email(dto.getWriterEmail()).build();  //Member 엔티티객체 처리
 
         Board board = Board.builder()
                 .bno(dto.getBno())
