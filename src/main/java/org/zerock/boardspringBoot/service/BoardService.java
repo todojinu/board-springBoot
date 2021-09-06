@@ -16,6 +16,8 @@ public interface BoardService {
 
     void removeWithReplies(Long bno);  //게시물 삭제
 
+    void modify(BoardDTO boardDTO);  //게시물 수정
+
     default Board dtoToEntity(BoardDTO dto) {  //BoardDTO를 Board 엔티티 타입으로 변환하는 default메소드
 
         Member member = Member.builder().email(dto.getWriterEmail()).build();  //Member 엔티티객체 처리

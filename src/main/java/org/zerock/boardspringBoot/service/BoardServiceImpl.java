@@ -69,4 +69,21 @@ public class BoardServiceImpl implements BoardService {
         //게시물 삭제
         repository.deleteById(bno);
     }
+
+    @Transactional
+    @Override
+    public void modify(BoardDTO boardDTO) {
+
+        //getById()는 필요한 순간까지 로딩을 지연시킨다. -> id 에만 접근 하는 경우 실제 DB에 접근하지 않고 프록시 객체만 가져옴
+        Board board = repository.getById(boardDTO.getBno());
+
+        if (board != null) {
+            board.changeTitle(boardDTO.getTitle());
+            board.changeContent(boardDTO.getContent());
+
+            repository.save(board);
+        }
+
+    }
+
 }
