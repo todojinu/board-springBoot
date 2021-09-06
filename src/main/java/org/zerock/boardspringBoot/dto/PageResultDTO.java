@@ -1,9 +1,11 @@
 package org.zerock.boardspringBoot.dto;
 
 import lombok.Data;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -49,6 +51,14 @@ public class PageResultDTO<DTO, EN> {  //DTO, Entity 타입
         pageList = IntStream.rangeClosed(start, end)
                 .boxed()                        //int를 Integer로 래핑
                 .collect(Collectors.toList());  //Stream을 로 반환
+    }
+
+    public PageResultDTO(Page<EN> result, Function<EN, DTO> fn) {
+        dtoList = result.stream().map(fn).collect(Collectors.toList());
+
+        totalPage = result.getTotalPages();
+
+        makePageList(result.getPageable());
     }
 
 }
