@@ -8,9 +8,11 @@ import org.zerock.boardspringBoot.entity.Member;
 
 public interface BoardService {
 
-    Long register(BoardDTO dto);
+    Long register(BoardDTO dto);  // 게시물 등록
 
     PageResultDTO<BoardDTO, Object[]> getList(PageRequestDTO pageRequestDTO);  // 목록처리
+
+    BoardDTO get(Long bno);  // 게시물 조회
 
     default Board dtoToEntity(BoardDTO dto) {  //BoardDTO를 Board 엔티티 타입으로 변환하는 default메소드
 

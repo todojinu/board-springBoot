@@ -27,7 +27,7 @@ public class BoardServiceTests {
     }
 
     @Test
-    public void testList() {
+    public void testList() {  //목록처리 테스트
 
         PageRequestDTO pageRequestDTO = new PageRequestDTO();
 
@@ -36,6 +36,14 @@ public class BoardServiceTests {
         for (BoardDTO boardDTO : result.getDtoList()) {
             System.out.println(boardDTO);
         }
+    }
+
+    @Test
+    public void testGet() {  //게시물 조회 테스트
+
+        BoardDTO boardDTO = boardService.get(100L);
+
+        System.out.println(boardDTO);
     }
 
 }
