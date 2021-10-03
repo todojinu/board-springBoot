@@ -235,7 +235,7 @@ sup {
 
 a {
   color: #0d6efd;
-  text-decoration: underline;
+  text-decoration: none;
 }
 a:hover {
   color: #0a58ca;
@@ -3118,6 +3118,8 @@ textarea.form-control-lg {
   color: #000;
   background-color: #0dcaf0;
   border-color: #0dcaf0;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 }
 .btn-info:hover {
   color: #000;
