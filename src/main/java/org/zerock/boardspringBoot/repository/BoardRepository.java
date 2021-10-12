@@ -6,10 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.zerock.boardspringBoot.entity.Board;
+import org.zerock.boardspringBoot.repository.search.SearchBoardRepository;
 
 import java.util.List;
 
-public interface BoardRepository extends JpaRepository<Board, Long> {
+public interface BoardRepository extends
+        JpaRepository<Board, Long>,
+        SearchBoardRepository
+{
 
     /* 엔티티 클래스에 연관관계가 있는 경우의 조인처리
      * - @Query는 SQL과 유사하게 엔티티 클래스의 정보를 이용해서 쿼리(JPQL: Java Persistence Query Language)를 작성할 수 있다.
