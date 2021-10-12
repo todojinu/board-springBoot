@@ -79,6 +79,7 @@ public class BoardController {
 
         boardService.modify(dto);
 
+        //redirect되는 URI에 쿼리 스트링으로 파라미터를 전달
         redirectAttributes.addAttribute("page", pageRequestDTO.getPage());
         redirectAttributes.addAttribute("type", pageRequestDTO.getType());
         redirectAttributes.addAttribute("keyword", pageRequestDTO.getKeyword());
