@@ -7,7 +7,6 @@ import org.zerock.boardspringBoot.dto.BoardDTO;
 import org.zerock.boardspringBoot.dto.PageRequestDTO;
 import org.zerock.boardspringBoot.dto.PageResultDTO;
 
-@SpringBootTest
 public class BoardServiceTests {
 
     @Autowired
