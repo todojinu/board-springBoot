@@ -27,8 +27,8 @@
                     </select>
                 </div>
                 <input class="form-control" name="keyword" th:value="${pageRequestDTO.keyword}">
-                <button type="button" class="btn btn-outline-secondary">Search</button>
-                <button type="button" class="btn btn-outline-secondary">Clear</button>
+                <button type="button" class="btn btn-outline-secondary btn-search">Search</button>
+                <button type="button" class="btn btn-outline-secondary btn-clear">Clear</button>
             </div>
         </form>
 
@@ -83,6 +83,18 @@
                    tabindex="-1">Next</a>
             </li>
         </ul>
+
+        <script th:inline="javascript">
+            var searchForm = $("#searchForm");
+
+            $(".btn-search").click(function(e) {
+                searchForm.submit();
+            });
+
+            $(".btn-clear").click(function(e) {
+                searchForm.empty().submit();
+            });
+        </script>
 
     </th:block>
 
