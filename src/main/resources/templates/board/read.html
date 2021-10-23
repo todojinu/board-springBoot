@@ -45,6 +45,69 @@
                 <button type="button" class="btn btn-info">List</button>
             </a>
 
+            <div>
+                <div class="mt-4">
+                    <h5><span class="badge replyCount">Reply Count [[${dto.replyCount}]]</span></h5>
+                </div>
+                <div class="list-group replyList">
+
+                </div>
+            </div>
+
+            <script th:inline="javascript">
+                //$(document).ready(function() {});
+                // .ready()는 DOM(Document Object Model)이 완전히 불러와지면 실행되는 Event. jQuery 3.0부터는 deprecated 되었으므로 $() 사용
+                $(function() {
+                    var bno = [[${dto.bno}]];
+                    var listGroup = $(".replyList");
+
+                    //ajax 로 댓글 정보를 요청
+                    $(".replyCount").click(function() {
+                        // test 코드
+                        /*
+                        $.getJSON('/replies/board/' + bno, function(arr) {  //jQuery.getJSON(url [, data ] [, success ])
+                            console.log(arr);
+                        });  //end getJSON
+                        */
+
+                        loadJSONData();
+                    });  //end click
+
+                    //날짜 처리를 위한 함수
+                    function formatTime(str) {
+                        var date = new Date(str);
+
+                        return date.getFullYear() + "/" +
+                            (date.getMonth() + 1) + "/" +
+                            date.getDate() + " " +
+                            date.getHours() + ":" +
+                            date.getMinutes();
+                    }
+
+                    //특정한 게시글의 댓글을 처리하는 함수
+                    function loadJSONData() {
+                        $.getJSON("/replies/board/" + [[${dto.bno}]], function(arr) {
+                            console.log(arr);
+
+                            var str = "";
+
+                            $(".replyCount").html(" Reply Count " + arr.length);  //html() 은 선택한 요소의 내용을 가져오거나 바꿈
+
+                            $.each(arr, function(idx, reply) {
+                                console.log(reply);
+                                str += '<div class="card-body" data-rno="' + reply.rno + '"><b>' + reply.rno + '</b>';
+                                str += '<h5 class="card-title">' + reply.text + '</h5>';
+                                str += '<h6 class="card-subtitle mb-2 text-muted">' + reply.replyer + '</h6>';
+                                str += '<p class="card-text">' + formatTime(reply.regDate) + '</p>';
+                                str += '</div>';
+                            });
+
+                            listGroup.html(str);
+                        });
+                    }
+                });
+            </script>
+
         </th:block>
 
     </th:block>
