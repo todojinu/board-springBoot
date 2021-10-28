@@ -25,12 +25,21 @@ public class ReplyController {
     private final ReplyService replyService;  //자동 주입을 위해 final 선언
 
     @GetMapping(value = "/board/{bno}",                   //{}로 묶은 변수를 사용하면 메서드 내에서 @PathVariable 로 처리할 수 있음
-            produces = MediaType.APPLICATION_JSON_VALUE)  //produces 를 통해 요청해더가 produces 에 지정된 type 일 경우만 요청이 매칭됨
+            produces = MediaType.APPLICATION_JSON_VALUE)  //produce 로 응답의 content-type 을 설정
     // '/replies/board/100'과 같이 요청이 들어올떄 '100'이라는 데이터를 변수로 처리할 수 있다.
     public ResponseEntity<List<ReplyDTO>> getListByBoard(@PathVariable("bno") Long bno) {
         log.info("bno: " + bno);
 
         return new ResponseEntity<>(replyService.getList(bno), HttpStatus.OK);
+    }
+
+    @PostMapping("")
+    public ResponseEntity<Long> register(@RequestBody ReplyDTO replyDTO) {  //@RequestBody 는 JSON으로 들어오는 데이터를 자동으로 해당 탑입의 객체로 매핑해줌
+        log.info(replyDTO);
+
+        Long rno = replyService.register(replyDTO);
+
+        return new ResponseEntity<>(rno, HttpStatus.OK);
     }
 
 }
