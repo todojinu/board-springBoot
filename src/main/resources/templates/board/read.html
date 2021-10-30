@@ -110,7 +110,7 @@
                             date.getMinutes();
                     }
 
-                    //특정한 게시글의 댓글을 처리하는 함수
+                    //게시물 댓글 조회(GET)
                     function loadJSONData() {
                         $.getJSON("/replies/board/" + [[${dto.bno}]], function(arr) {
                             console.log(arr);
@@ -156,6 +156,7 @@
 
                         console.log(reply);
 
+                        //댓글 등록(POST)
                         $.ajax({
                             url: "/replies/",
                             method: "post",
@@ -190,6 +191,7 @@
                     $(".replyRemove").click(function() {
                         var rno = $("input[name='rno']").val();  //모달창에 hidden 처리된 댓글 번호
 
+                        //댓글 삭제(DELETE)
                         $.ajax({
                             url: "/replies/" + rno,
                             method: "delete",
@@ -199,6 +201,36 @@
 
                                 if(result === "success") {
                                     alert("댓글이 삭제되었습니다.");
+                                    modal.modal("hide");
+                                    loadJSONData();
+                                }
+                            }
+                        });
+                    });
+
+                    $(".replyModify").click(function() {
+                        var rno = $("input[name='rno']").val();
+
+                        var reply = {
+                            rno: rno,
+                            bno: bno,
+                            text: $("input[name='replyText']").val(),
+                            replyer: $("input[name='replyer']").val()
+                        };
+
+                        console.log(reply);
+
+                        //댓글 수정(PUT)
+                        $.ajax({
+                            url: "/replies/" + rno,
+                            method: "put",
+                            data: JSON.stringify(reply),
+                            contentType: "application/json; charset=utf-8",
+                            success: function(result) {
+                                console.log("RESULT: " + result);
+
+                                if(result === "success") {
+                                    alert("댓글이 수정되었습니다.");
                                     modal.modal("hide");
                                     loadJSONData();
                                 }
