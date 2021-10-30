@@ -121,6 +121,7 @@
 
                             $.each(arr, function(idx, reply) {
                                 console.log(reply);
+
                                 str += '<div class="card-body" data-rno="' + reply.rno + '"><b>' + reply.rno + '</b>';
                                 str += '<h5 class="card-title">' + reply.text + '</h5>';
                                 str += '<h6 class="card-subtitle mb-2 text-muted">' + reply.replyer + '</h6>';
@@ -173,6 +174,37 @@
                         });
                     });
 
+                    $(".replyList").on("click", ".card-body", function() {  //replyList 의 card-body 클래스에 이벤트 적용
+                        var rno = $(this).data("rno");  // 클릭한 <div>의 data-rno 를 가져옴
+
+                        $("input[name='replyText']").val($(this).find(".card-title").html());
+                        $("input[name='replyer']").val($(this).find(".card-subtitle").html());
+                        $("input[name='rno']").val(rno);
+
+                        $(".modal-footer .btn").hide();
+                        $(".replyRemove, .replyModify, .replyClose").show();
+
+                        modal.modal("show");
+                    });
+
+                    $(".replyRemove").click(function() {
+                        var rno = $("input[name='rno']").val();  //모달창에 hidden 처리된 댓글 번호
+
+                        $.ajax({
+                            url: "/replies/" + rno,
+                            method: "delete",
+
+                            success: function(result) {
+                                console.log("result: " + result);
+
+                                if(result === "success") {
+                                    alert("댓글이 삭제되었습니다.");
+                                    modal.modal("hide");
+                                    loadJSONData();
+                                }
+                            }
+                        });
+                    });
                 });
             </script>
 
